@@ -15,7 +15,7 @@
 | `site/` | 页面源码：HTML / CSS / JS / favicon | 要。改界面和交互只动这里 |
 | `dist/` | 构建产物，也是**唯一部署目录** | 不要。每次构建都会整目录清空重写 |
 
-`site/` 里没有 261 张风格图，也没有 `styles.json`。这些资源在构建时从仓库现有位置拷进 `dist/`，避免和 `images/`、`handdraw-style-prompter/references/` 再存一份。
+`site/` 里没有 261 张风格图，也没有 `styles.json`。这些资源在构建时从仓库现有位置拷进 `dist/`，避免和 `handdraw-style-prompter/images/`、`handdraw-style-prompter/references/` 再存一份。
 
 ## 数据从哪来
 
@@ -24,9 +24,9 @@
 | 用途 | 源位置 |
 |------|--------|
 | 风格条目（编号、group、参考名、风格名、提示词） | `handdraw-style-prompter/references/styles.json` |
-| 风格示意图 | `images/individual/001-200/{编号}.png`、`images/individual/201-400/{编号}.png` |
+| 风格示意图 | `handdraw-style-prompter/images/individual/001-200/{编号}.png`、`handdraw-style-prompter/images/individual/201-400/{编号}.png` |
 | 权威风格表（改内容从这里改） | 仓库根目录 `styles_200_reorganized.md` |
-| 拼图原图（切单图用） | `images/A_001-016.png` 这类接触表 |
+| 拼图原图（切单图用） | `handdraw-style-prompter/images/A_001-016.png` 这类接触表 |
 
 `styles.json` 是由 Markdown 生成的，不要当主数据源手改。
 
@@ -66,10 +66,10 @@ python3 scripts/build_dist.py
 
 画廊**只读现成单图**，不要对已有单图再跑切图。把 PNG 放到对应编号段目录即可：
 
-- `001–200` → `images/individual/001-200/041.png`
-- `201–400` → `images/individual/201-400/217.png`
+- `001–200` → `handdraw-style-prompter/images/individual/001-200/041.png`
+- `201–400` → `handdraw-style-prompter/images/individual/201-400/217.png`
 
-`split_contact_sheets.py` 只在「只有拼图、还没有单图」时用；它会覆盖 `images/individual/`，有单图时不要跑。部分拼图不是标准 4×4（标题栏、一行五格、末行不满），均分会切错。已经修过的编号段、错因和还没重切的尾巴，见仓库根目录 [README.md](../README.md) 里的「单图错位：已经修过的几波」。
+`split_contact_sheets.py` 只在「只有拼图、还没有单图」时用；它会覆盖 `handdraw-style-prompter/images/individual/`，有单图时不要跑。部分拼图不是标准 4×4（标题栏、一行五格、末行不满），均分会切错。已经修过的编号段、错因和还没重切的尾巴，见仓库根目录 [README.md](../README.md) 里的「单图错位：已经修过的几波」。
 
 然后打包：
 

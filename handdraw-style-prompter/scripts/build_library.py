@@ -7,11 +7,18 @@ import json
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
 SKILL = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "styles_200_reorganized.md"
+ROOT = SKILL.parent
+IMAGES = SKILL / "images"
 STYLE_JSON = SKILL / "references" / "styles.json"
 GALLERY = SKILL / "gallery" / "index.html"
+
+
+def style_source() -> Path:
+    for candidate in (SKILL / "styles_200_reorganized.md", ROOT / "styles_200_reorganized.md"):
+        if candidate.exists():
+            return candidate
+    raise SystemExit("styles_200_reorganized.md not found in the skill directory or repository root.")
 ROW = re.compile(r"^\|\s*(\d{3})\s*·\s*([^|]+)\|\s*([^|]+)\|\s*(.*)\|\s*$")
 HEADING = re.compile(r"^##\s+([A-G])\s+(.+)$")
 IMAGE = re.compile(r"^([A-G])_(\d{3})(?:-(\d{3}))?\.png$")
@@ -20,7 +27,7 @@ IMAGE = re.compile(r"^([A-G])_(\d{3})(?:-(\d{3}))?\.png$")
 def parse_styles() -> list[dict[str, str]]:
     group = ""
     items: list[dict[str, str]] = []
-    for line in SOURCE.read_text(encoding="utf-8").splitlines():
+    for line in style_source().read_text(encoding="utf-8").splitlines():
         heading = HEADING.match(line)
         if heading:
             group = f"{heading.group(1)} {heading.group(2)}"
@@ -35,14 +42,14 @@ def parse_styles() -> list[dict[str, str]]:
 
 def contact_sheets() -> list[dict[str, str]]:
     sheets = []
-    for path in sorted((ROOT / "images").glob("*.png")):
+    for path in sorted(IMAGES.glob("*.png")):
         match = IMAGE.match(path.name)
         if match:
             group = match.group(1)
             start = match.group(2)
             end = match.group(3) or start
             sheets.append({"group": group, "start": start, "end": end,
-                           "path": f"../../images/{path.name}"})
+                           "path": f"../images/{path.name}"})
     return sheets
 
 

@@ -25,8 +25,8 @@
 
 ## 单张图片
 
-- `images/individual/001-200/001.png`–`images/individual/001-200/200.png`：001–200 的编号单图
-- `images/individual/201-400/201.png`–`images/individual/201-400/217.png`：201–217 的编号单图
+- `handdraw-style-prompter/images/individual/001-200/001.png`–`handdraw-style-prompter/images/individual/001-200/200.png`：001–200 的编号单图
+- `handdraw-style-prompter/images/individual/201-400/201.png`–`handdraw-style-prompter/images/individual/201-400/217.png`：201–217 的编号单图
 - `{编号}_grid.jpg`：与同编号单图放在同一编号段目录的四宫格生图参考图
 
 ## 覆盖情况

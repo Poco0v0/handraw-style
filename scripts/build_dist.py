@@ -10,8 +10,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 DIST = ROOT / "dist"
-STYLES = ROOT / "handdraw-style-prompter" / "references" / "styles.json"
-AVATAR_SRC = ROOT / "images" / "individual" / "001-200" / "001.png"
+SKILL = ROOT / "handdraw-style-prompter"
+STYLES = SKILL / "references" / "styles.json"
+IMAGES = SKILL / "images"
+AVATAR_SRC = IMAGES / "individual" / "001-200" / "001.png"
 
 
 def png_size(path: Path) -> tuple[int, int]:
@@ -22,7 +24,7 @@ def png_size(path: Path) -> tuple[int, int]:
 
 def image_src(number: str) -> Path:
     bucket = "001-200" if int(number) <= 200 else "201-400"
-    return ROOT / "images" / "individual" / bucket / f"{number}.png"
+    return IMAGES / "individual" / bucket / f"{number}.png"
 
 
 def copy_tree_file(src: Path, dest: Path) -> None:

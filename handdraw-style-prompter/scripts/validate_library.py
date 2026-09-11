@@ -7,16 +7,15 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-ROOT_SCRIPTS = ROOT / "scripts"
-if str(ROOT_SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(ROOT_SCRIPTS))
+SKILL = Path(__file__).resolve().parents[1]
+ROOT = SKILL.parent
+SKILL_SCRIPTS = Path(__file__).resolve().parent
+if str(SKILL_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SKILL_SCRIPTS))
 
 from resolve_reference import resolve
 from contact_sheet_registry import CAPACITY, STATE_FILE, parse_sheet, sheet_path
-from style_asset_paths import bucket_name, grid_path, single_path
-
-SKILL = Path(__file__).resolve().parents[1]
+from style_asset_paths import IMAGES, bucket_name, grid_path, single_path
 
 
 def fail(message: str) -> None:
@@ -83,14 +82,14 @@ def main() -> None:
         fail("style 217 four-panel grid is missing")
     if any(item["traits"] for item in styles[200:216]):
         fail("201–216 core visual traits must remain blank")
-    individual = ROOT / "images" / "individual"
+    individual = IMAGES / "individual"
     expected_individual = [single_path(number) for number in range(1, total_styles + 1)]
     if not all(path.exists() for path in expected_individual):
         fail(f"numbered asset buckets must cover exactly 001.png–{max_num}.png")
     if list(individual.glob("[0-9][0-9][0-9].png")) or list(individual.glob("[0-9][0-9][0-9]_grid.jpg")):
         fail("flat individual assets must be migrated into numbered buckets")
     tweet_sheets = []
-    for path in (ROOT / "images").glob("G_*.png"):
+    for path in IMAGES.glob("G_*.png"):
         parsed = parse_sheet(path)
         if parsed:
             tweet_sheets.append((*parsed, path))
@@ -117,17 +116,19 @@ def main() -> None:
             fail(f"gallery is missing contact sheet {path.name}")
     if "A_001-016.png" not in gallery or "F_187-200.png" not in gallery or "#018" not in gallery:
         fail("gallery does not cover the expected sheets and style 018")
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    for _, _, path in tweet_sheets:
-        if f"images/{path.name}" not in readme:
-            fail(f"README does not reference contact sheet {path.name}")
+    readme_path = ROOT / "README.md"
+    if readme_path.exists():
+        readme = readme_path.read_text(encoding="utf-8")
+        for _, _, path in tweet_sheets:
+            if f"images/{path.name}" not in readme:
+                fail(f"README does not reference contact sheet {path.name}")
     if f"风格索引（{total_styles}）" not in gallery or f"输入 001–{max_num}" not in gallery:
         fail("gallery count or range is stale")
     skill_text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
-    for token in ["Explicit image-generation mode", "name_activation=strong", "model_capabilities.json", "referenced_image_paths", "Use the attached image only as a style reference", "The user's written theme is the sole source for the image content", "images\\individual\\{bucket}\\{number}.png", "217_grid.jpg"]:
+    for token in ["Explicit image-generation mode", "name_activation=strong", "model_capabilities.json", "referenced_image_paths", "Use the attached image only as a style reference", "The user's written theme is the sole source for the image content", "images/individual/{bucket}/{number}.png", "217_grid.jpg"]:
         if token not in skill_text:
             fail(f"image-reference contract is missing {token}")
-    for token in ["Session initialization", "mcp__codex_app__open_in_codex", "file:///E:/handraw-style/handdraw-style-prompter/gallery/index.html", "Do not repeat the browser call", "fallback link"]:
+    for token in ["Session initialization", "mcp__codex_app__open_in_codex", "gallery/index.html", "Do not repeat the browser call", "fallback link"]:
         if token not in skill_text:
             fail(f"session initialization contract is missing {token}")
     for token in ['id="preview"', 'class="sheet"', 'dialog.showModal()', 'event.target===dialog']:

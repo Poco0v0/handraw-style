@@ -28,7 +28,7 @@ Skill 默认只负责把想法变成提示词；你明确要求“生图”时�
 
 当前已按 `gpt-image-2` 建立首轮能力清单，生图优先级为：作者名称 + 风格名称 → 再加正向核心风格特征 → 最后传对应编号的单图。像 `001` 这类可由名称激活的风格不传图；没有核心特征或仍不足以激活的编号才传图。这个判断与作者是否著名、是否在世无关。
 
-导入的新风格资源按每 200 个编号分目录保存：例如 `001–200` 在 `images/individual/001-200/`，`201–400` 在 `images/individual/201-400/`。同一编号的单图和四宫格参考图始终在同一个目录。
+导入的新风格资源按每 200 个编号分目录保存在 Skill 内部：例如 `001–200` 在 `handdraw-style-prompter/images/individual/001-200/`，`201–400` 在 `handdraw-style-prompter/images/individual/201-400/`。同一编号的单图和四宫格参考图始终在同一个目录。`images/` 不和 Skill 同级。
 
 ## 静态画廊（site / dist）
 
@@ -54,19 +54,19 @@ python3 scripts/build_dist.py
 
 ## 单图错位：已经修过的几波
 
-画廊读的是 `images/individual/` 里按编号存放的单图，不是上面的拼图接触表。多数拼图是 4×4，但**不能默认每一张都按整图均分成 4 行 4 列**。有的第三行挤了 5 格，有的顶部先印了一条标题栏；旧切法把标题算进第一格，后面整列都会错位（上一格的腿、鞋、空白行切进下一号）。
+画廊读的是 `handdraw-style-prompter/images/individual/` 里按编号存放的单图，不是上面的拼图接触表。多数拼图是 4×4，但**不能默认每一张都按整图均分成 4 行 4 列**。有的第三行挤了 5 格，有的顶部先印了一条标题栏；旧切法把标题算进第一格，后面整列都会错位（上一格的腿、鞋、空白行切进下一号）。
 
-`handdraw-style-prompter/scripts/split_contact_sheets.py` 会覆盖整个 `images/individual/`。**单图目录已经齐了，就不要再全量跑它。** 错一张只重切那一张（或用户点名的那一段），写回对应编号，再跑 `python3 scripts/build_dist.py`。
+`handdraw-style-prompter/scripts/split_contact_sheets.py` 会覆盖整个 `handdraw-style-prompter/images/individual/`。**单图目录已经齐了，就不要再全量跑它。** 错一张只重切那一张（或用户点名的那一段），写回对应编号，再跑 `python3 scripts/build_dist.py`。
 
 已经按拼图真实格子重切、覆盖过的单图：
 
 | 编号 | 拼图 | 错因 |
 |------|------|------|
-| 045–048 | `images/B_036-048.png` | 第三行是 **044–048 五格且不等宽**。按 4 列均分后 045 起错位，048 切到空白行 |
-| 049–054 | `images/B_049-054.png` | 编号标题印在格内下方。旧切法切掉标题，或把两行粘在一起 |
-| 115–123 | `images/D_115-123.png` | 顶部有 D 标题栏。标题被算进第一行后，119 会切到 115 下半身，123 会混进 122 的鞋 |
-| 124–135 | `images/E_124-139.png` | 顶部有 E 标题栏，版式和后面的 G 拼图同模板（1312×1199）。124 会带上标题字。**136–139 还没重切** |
-| 201–212 | `images/G_201-216.png` | 同样把「201–216」标题栏算进第一行，每格顶部渗进上一格。**213–216 还没重切** |
+| 045–048 | `handdraw-style-prompter/images/B_036-048.png` | 第三行是 **044–048 五格且不等宽**。按 4 列均分后 045 起错位，048 切到空白行 |
+| 049–054 | `handdraw-style-prompter/images/B_049-054.png` | 编号标题印在格内下方。旧切法切掉标题，或把两行粘在一起 |
+| 115–123 | `handdraw-style-prompter/images/D_115-123.png` | 顶部有 D 标题栏。标题被算进第一行后，119 会切到 115 下半身，123 会混进 122 的鞋 |
+| 124–135 | `handdraw-style-prompter/images/E_124-139.png` | 顶部有 E 标题栏，版式和后面的 G 拼图同模板（1312×1199）。124 会带上标题字。**136–139 还没重切** |
+| 201–212 | `handdraw-style-prompter/images/G_201-216.png` | 同样把「201–216」标题栏算进第一行，每格顶部渗进上一格。**213–216 还没重切** |
 
 以后再发现错位：对照拼图看格子（先跳过标题栏，再按竖线/行线切），只覆盖报错编号，不要用均分脚本打一整本。其它已知不规则、但还没整段重切的拼图包括 `A_033-035.png`（首行 3 张）、`C_071-082.png`（4×3）、`E_140-154.png`（末行 3 张）、`G_249-261.png`（末行 1 张）。
 
@@ -82,52 +82,52 @@ python3 scripts/build_dist.py
 
 ### A · 国际社论漫画 / 幽默手绘（001–035）
 
-![A 001–016](images/A_001-016.png)
+![A 001–016](handdraw-style-prompter/images/A_001-016.png)
 
-![A 017–032](images/A_017-032.png)
+![A 017–032](handdraw-style-prompter/images/A_017-032.png)
 
-![A 033–035](images/A_033-035.png)
+![A 033–035](handdraw-style-prompter/images/A_033-035.png)
 
 ### B · 国际绘本 / 叙事型手绘（036–054）
 
-![B 036–048](images/B_036-048.png)
+![B 036–048](handdraw-style-prompter/images/B_036-048.png)
 
-![B 049–054](images/B_049-054.png)
+![B 049–054](handdraw-style-prompter/images/B_049-054.png)
 
 ### C · 现代平面 / 艺术化人物体系（055–082）
 
-![C 055–070](images/C_055-070.png)
+![C 055–070](handdraw-style-prompter/images/C_055-070.png)
 
-![C 071–082](images/C_071-082.png)
+![C 071–082](handdraw-style-prompter/images/C_071-082.png)
 
 ### D · 日本作者 / 当代插画体系（083–123）
 
-![D 083–098](images/D_083-098.png)
+![D 083–098](handdraw-style-prompter/images/D_083-098.png)
 
-![D 099–114](images/D_099-114.png)
+![D 099–114](handdraw-style-prompter/images/D_099-114.png)
 
-![D 115–123](images/D_115-123.png)
+![D 115–123](handdraw-style-prompter/images/D_115-123.png)
 
 ### E · 中国作者 / 当代插画体系（124–154）
 
-![E 124–139](images/E_124-139.png)
+![E 124–139](handdraw-style-prompter/images/E_124-139.png)
 
-![E 140–154](images/E_140-154.png)
+![E 140–154](handdraw-style-prompter/images/E_140-154.png)
 
 ### F · 通用网感 / 媒介 / 地域手绘（155–200）
 
-![F 155–170](images/F_155-170.png)
+![F 155–170](handdraw-style-prompter/images/F_155-170.png)
 
-![F 171–186](images/F_171-186.png)
+![F 171–186](handdraw-style-prompter/images/F_171-186.png)
 
-![F 187–200](images/F_187-200.png)
+![F 187–200](handdraw-style-prompter/images/F_187-200.png)
 
 ### G · 附件新增 / 当代插画补充（201–261）
 
-![G 201–216](images/G_201-216.png)
+![G 201–216](handdraw-style-prompter/images/G_201-216.png)
 
-![G 217–232](images/G_217-232.png)
+![G 217–232](handdraw-style-prompter/images/G_217-232.png)
 
-![G 233–248](images/G_233-248.png)
+![G 233–248](handdraw-style-prompter/images/G_233-248.png)
 
-![G 249–261](images/G_249-261.png)
+![G 249–261](handdraw-style-prompter/images/G_249-261.png)

@@ -4,11 +4,18 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parents[2]
+SKILL_SCRIPTS = Path(__file__).resolve().parent
+if str(SKILL_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SKILL_SCRIPTS))
+
+from style_asset_paths import IMAGES, single_path
+
+SKILL = Path(__file__).resolve().parents[1]
 SHEET = re.compile(r"^[A-G]_(\d{3})(?:-(\d{3}))?\.png$")
 ROWS = 4
 DEFAULT_COLS = 4
@@ -26,11 +33,6 @@ CELL_BOUNDS = {
     },
 }
 REF_WIDTH = 1254
-
-
-def single_path(number: int) -> Path:
-    bucket = "001-200" if number <= 200 else "201-400"
-    return ROOT / "images" / "individual" / bucket / f"{number:03}.png"
 
 
 def split_sheet(path: Path) -> int:
@@ -70,8 +72,8 @@ def split_sheet(path: Path) -> int:
 
 
 def main() -> None:
-    total = sum(split_sheet(path) for path in sorted((ROOT / "images").glob("[A-G]_*.png")))
-    expected = len(json.loads((ROOT / "handdraw-style-prompter" / "references" / "styles.json").read_text(encoding="utf-8")))
+    total = sum(split_sheet(path) for path in sorted(IMAGES.glob("[A-G]_*.png")))
+    expected = len(json.loads((SKILL / "references" / "styles.json").read_text(encoding="utf-8")))
     if total != expected:
         raise SystemExit(f"Expected {expected} numbered tiles, wrote {total}.")
     print(f"Split {total} numbered tiles into numbered 200-style buckets.")
