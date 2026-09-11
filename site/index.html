@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Handraw Style</title>
+  <meta name="description" content="001–261 手绘风格编号画廊。悬停查看条目信息，点击复制提示词。">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/gallery.css?v=5">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#work">
+      <img class="avatar" src="img/avatar.png" width="24" height="24" alt="">
+      <span class="wordmark">Handraw Style</span>
+    </a>
+    <div class="header-actions">
+      <button class="ghost-btn" id="explore-btn" type="button">
+        <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+          <circle cx="6.5" cy="6.5" r="4.5" fill="none" stroke="currentColor" stroke-width="1"/>
+          <path d="M10 10l4 4" fill="none" stroke="currentColor" stroke-width="1"/>
+        </svg>
+        Explore
+      </button>
+      <button class="ghost-btn" id="index-btn" type="button">
+        <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+          <path d="M3 4h10M3 8h10M3 12h10" fill="none" stroke="currentColor" stroke-width="1"/>
+        </svg>
+        Index
+      </button>
+    </div>
+  </header>
+
+  <div class="search-wrap" id="search-wrap" hidden>
+    <label class="sr-only" for="search">搜索风格</label>
+    <input id="search" type="search" placeholder="编号、风格名、参考作者…" autocomplete="off">
+  </div>
+
+  <div class="filter-bar">
+    <div class="group-filters" id="group-filters" role="tablist" aria-label="按 group 筛选"></div>
+    <p class="filter-count" id="filter-count"></p>
+  </div>
+
+  <main id="work">
+    <section class="editorial" id="about">
+      <article class="card card--text">
+        <p class="kicker">About</p>
+        <p class="lede">Handraw Style 是一套 001–261 的手绘风格编号库。白墙只负责安静，插画自己把颜色带进来。选一个编号，再给主题，就能得到可直接用于生图的提示词。</p>
+        <a class="more" href="https://github.com/Poco0v0/handraw-style">Find out more</a>
+      </article>
+      <article class="card card--text">
+        <p class="kicker">Live stories</p>
+        <p class="live-stories">
+          <img class="avatar" src="img/avatar.png" width="24" height="24" alt="">
+          <span>Stay up to date with Handraw. 悬停查看条目，点击示意图复制提示词。</span>
+        </p>
+        <p class="lede live-example">例如：041号风格，主题：秋天的第一杯奶茶</p>
+      </article>
+    </section>
+    <section class="masonry" id="grid" aria-live="polite"></section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <p>Handraw Style</p>
+    <p>001–261 hand-drawn styles · a white gallery wall for loud art</p>
+    <p>
+      <a href="https://github.com/Poco0v0/handraw-style">GitHub</a>
+      <a class="more" href="https://github.com/Poco0v0/handraw-style#readme">Find out more</a>
+    </p>
+  </footer>
+
+  <nav class="float-nav" aria-label="页面导航">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <dialog class="copy-dialog" id="copy-dialog" aria-labelledby="copy-title">
+    <div class="index-head">
+      <p id="copy-title">提示词</p>
+      <button class="ghost-btn" id="copy-close" type="button">Close</button>
+    </div>
+    <textarea id="copy-text" readonly></textarea>
+  </dialog>
+
+  <dialog class="index-dialog" id="index-dialog" aria-labelledby="index-title">
+    <div class="index-head">
+      <p id="index-title">Index</p>
+      <button class="ghost-btn" id="index-close" type="button">Close</button>
+    </div>
+    <div class="index-grid" id="index-grid"></div>
+  </dialog>
+
+  <script src="data/catalog.js?v=5"></script>
+  <script src="js/gallery.js?v=5"></script>
+</body>
+</html>
